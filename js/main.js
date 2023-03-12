@@ -29,7 +29,9 @@ $(document).ready(function() {
     rawJSON = JSON.parse(e.target.result);
     for (let message of rawJSON.messages) {
       if (message.text === "") continue;
+      if (message.text[0] === "/") continue;
       if (message.from_id === undefined) continue;
+
       if (userCalculation[message.from_id] === undefined) {
         userCalculation[message.from_id] = {
           id: message.from_id,
