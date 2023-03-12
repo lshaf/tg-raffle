@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Fair Raffle</title>
+</head>
+<body>
+    <h2>JSON Telegram</h2>
+    <div>
+        <input type="file" accept="application/json" id="file">
+        <button type="button" id="upload">Upload</button>
+        <table id="participant" border="1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Chats</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <h2>Setting</h2>
+    <div>
+        Minimun Chat: <input type="text" id="minimum_chat" value="0"> <br>
+        Exclude ID: <br>
+        <textarea id="exclude" placeholder="user12345"></textarea> <br>
+        <button type="button" id="raffle">Raffle</button>
+    </div>
+    <h2>Participant</h2>
+    <table id="result" border="1">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Number Ticket</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div>
+        <div>Random Number: <span id="randomNumber"></span></div>
+        <button type="button" id="set_winner">Pick Winner</button>
+        <button type="button" id="stop">Stop</button>
+    </div>
+    <h2>Winner</h2>
+    <table id="winner" border="1">
+        <thead>
+        <tr>
+            <th>Picked</th>
+            <th>Name</th>
+            <th>Number Ticket</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
