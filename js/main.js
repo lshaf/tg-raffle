@@ -128,7 +128,7 @@ $(document).ready(function() {
   let _timer = null;
   function startTimer() {
     $("#randomNumber").html(Math.floor(Math.random() * totalNumber) + 1);
-    _timer = setTimeout(startTimer, 100);
+    _timer = setTimeout(startTimer, 50);
   }
 
   $("#raffle").on('click', function () {
