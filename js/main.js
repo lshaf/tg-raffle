@@ -120,7 +120,6 @@ $(document).ready(function() {
       let self = $(x);
       let strNumber = self.find('td:last-child').html().split(" - ");
       if (winner >= parseInt(strNumber[0]) && winner <= parseInt(strNumber[1])) {
-        console.log(winner, strNumber, winner >= strNumber[0], winner <= strNumber[1])
         winnerId.push(self.data('id'));
         self.prepend(`<td>${winner}</td>`)
         eWinner.append(self);
