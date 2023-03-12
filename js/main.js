@@ -26,8 +26,9 @@ $(document).ready(function() {
   let rawJSON = {};
   let arrCalculation = [];
   let winnerId = [];
+  let totalChat = 0;
   function fileReader (e) {
-    let totalChat = 0;
+    totalChat = 0;
     let userCalculation = {};
     rawJSON = JSON.parse(e.target.result);
     for (let message of rawJSON.messages) {
@@ -89,13 +90,22 @@ $(document).ready(function() {
     return tmp;
   }
 
+  let blankWinner = 0;
   let totalNumber = 0;
   function mixParticipant() {
     let raw_participant = [];
     let minimum = $("#minimum_chat").val();
     if (isNaN(minimum)) minimum = 0;
     let exclude = getExcludeId();
-    for (let part of arrCalculation) {
+    let finalParticipant = [...arrCalculation];
+    if (blankWinner > 0) {
+      finalParticipant.push({
+        id: "user0000",
+        count: Math.ceil(totalChat * (blankWinner / 100)),
+        name: "@Next_Pool"
+      });
+    }
+    for (let part of finalParticipant) {
       if (part.count < minimum) continue;
       if (exclude.includes(part.id)) continue;
       if (winnerId.includes(part.id)) continue;
@@ -123,6 +133,8 @@ $(document).ready(function() {
 
   $("#raffle").on('click', function () {
     eWinner.find("tbody").html('');
+    blankWinner = parseInt($("#blank_winner").val())
+    if (isNaN(blankWinner)) blankWinner = 0;
     mixParticipant();
     startTimer();
   });
@@ -133,8 +145,14 @@ $(document).ready(function() {
       return;
     }
 
+    let eParticipant = eResult.find("tbody tr");
+    if (eParticipant.length === 1) {
+      alert("Need 2 or more participant");
+      return;
+    }
+
     let winner = parseInt($("#randomNumber").html());
-    for (let x of eResult.find("tbody tr")) {
+    for (let x of eParticipant) {
       let self = $(x);
       let strNumber = self.find('td:last-child').html().split(" - ");
       if (winner >= parseInt(strNumber[0]) && winner <= parseInt(strNumber[1])) {
