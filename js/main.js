@@ -2,7 +2,6 @@ $(document).ready(function() {
   let eFile = $("#file");
   let eResult = $("#result");
   let eWinner = $("#winner");
-  let eExclude = $("#exclude");
   let defaultExclude = [
     "user300860929",
     "user574539108",
@@ -14,8 +13,6 @@ $(document).ready(function() {
     "user609517172"
   ]
 
-  eExclude.val(defaultExclude.join("\n"));
-
   $("#upload").on('click', function () {
     let files = eFile.prop("files");
     const reader = new FileReader();
@@ -24,11 +21,11 @@ $(document).ready(function() {
   });
 
   let rawJSON = {};
-  let userCalculation = {};
   let arrCalculation = [];
   let winnerId = [];
   function fileReader (e) {
     let totalChat = 0;
+    let userCalculation = {};
     rawJSON = JSON.parse(e.target.result);
     for (let message of rawJSON.messages) {
       if (message.text === "") continue;
@@ -48,7 +45,14 @@ $(document).ready(function() {
     arrCalculation = Object.values(userCalculation);
     arrCalculation.sort((a, b) => a.count - b.count)
     for (let u of arrCalculation) {
-      $("#participant tbody").append(`<tr><td>${u.id}</td><td>${u.name}</td><td>${u.count}</td></tr>`)
+      let isChecked = defaultExclude.includes(u.id) ? "checked" : "";
+      let eTr = `<tr>
+        <td align="center"><input type="checkbox" data-id="${u.id}" class="excludes" ${isChecked}></td>
+        <td>${u.id}</td>
+        <td>${u.name}</td>
+        <td>${u.count}</td>
+      </tr>`;
+      $("#participant tbody").append(eTr)
     }
   }
 
@@ -70,13 +74,21 @@ $(document).ready(function() {
     return array;
   }
 
+  function getExcludeId() {
+    let tmp = [];
+    for (let eEx of $(".excludes:checked")) {
+      tmp.push($(eEx).data('id'));
+    }
+
+    return tmp;
+  }
+
   let totalNumber = 0;
   function mixParticipant() {
     let raw_participant = [];
     let minimum = $("#minimum_chat").val();
     if (isNaN(minimum)) minimum = 0;
-    let excludesText = eExclude.val();
-    let exclude = excludesText.split("\n");
+    let exclude = getExcludeId();
     for (let part of arrCalculation) {
       if (part.count < minimum) continue;
       if (exclude.includes(part.id)) continue;
