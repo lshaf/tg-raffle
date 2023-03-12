@@ -3,14 +3,17 @@ $(document).ready(function() {
   let eResult = $("#result");
   let eWinner = $("#winner");
   let defaultExclude = [
-    "user300860929",
-    "user574539108",
-    "user1000528231",
-    "user1329931855",
-    "user5555602743",
-    "user722139060",
-    "user5594127789",
-    "user609517172"
+    "user300860929", // sang mata
+    "user574539108", // coinkit
+    "user1000528231", // vidDL
+    "user1329931855", // dust miner
+    "user5555602743", // quest lord
+    "user722139060", // Bloks bot
+    "user5594127789", // space invento
+    "user609517172", // rose
+    "user5478299901", // leef miner
+    "user5712652258", // Koala Information
+    "user5876703890", // Improbability
   ]
 
   $("#upload").on('click', function () {
@@ -30,6 +33,7 @@ $(document).ready(function() {
     for (let message of rawJSON.messages) {
       if (message.text === "") continue;
       if (message.text[0] === "/") continue;
+      if (message.from === null) continue;
       if (message.from_id === undefined) continue;
 
       if (userCalculation[message.from_id] === undefined) {
